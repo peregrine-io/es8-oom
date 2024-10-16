@@ -1,12 +1,12 @@
 # Overview
 This repository demonstrates an out of memory error in Elasticsearch version 8.15.
 
-To reproduce the error you will need docker and python installed then follow these steps.
-`git clone https://github.com/peregrine-io/es8-oom.git`
-`cd es8-oom/repro`
-`docker-compose up es8`
-`pip install -r requirements.txt`
-`python es_oom_repro`
+To reproduce the error you will need docker and python installed then follow these steps.  
+`git clone https://github.com/peregrine-io/es8-oom.git`  
+`cd es8-oom/repro`  
+`docker-compose up es8`  
+`pip install -r requirements.txt`  
+`python es_oom_repro`  
 
 This will take a few minutes to run as it indexes a very large document. After some time you will see an error from the script:
 `elastic_transport.ConnectionError: Connection error caused by: ConnectionError(Connection error caused by: ProtocolError(('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')`
