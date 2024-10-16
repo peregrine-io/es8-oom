@@ -36,16 +36,16 @@ In the referenced repro repository I:
 7. OOM.
 
 When I open up the head dump in VisualVM I see that most of the memory is taken by byte[]:
-![image](https://github.com/user-attachments/assets/e55484be-7b77-42c1-8907-f18d6ca1bf77)
+![image](https://github.com/user-attachments/assets/37ec3e09-0528-4cf6-bacd-12cbaea3f4a9)
 
 If I dig in a bit further, we've tried to initialize a bunch of these TwoPhaseFilterMatchingDisiWrapper objects.
-![image](https://github.com/user-attachments/assets/b2dec7b6-61e7-4cad-935f-45d1053e3df0)
+![image](https://github.com/user-attachments/assets/5109d7d0-c031-4c37-9d5c-652b81f0f045)
 
 In each of those we're initializing these 30MB byte arrays that are all 0's inside of the `ShapeDocValuesQuery` via a `Lucene90DocValuesProducer`:
-![image](https://github.com/user-attachments/assets/6da233c6-ece5-44c2-9f08-b8a79f5a1252)
+![image](https://github.com/user-attachments/assets/e21e416a-5d80-4917-8516-ddba0ab7d23c)
 
 Notably, these byte arrays hav 30,462,618 entries. That's the same number as `val$entry.maxLength`:
-![image](https://github.com/user-attachments/assets/68d61b30-cf79-44b4-b1c2-d90d659cbfcf)
+![image](https://github.com/user-attachments/assets/84290542-dc59-4d7f-889c-a2ed21e7413d)
 
 What I think is happening:
 For each bucket in the aggregation:
