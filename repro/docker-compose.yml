@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  es8:
+    image: elasticsearch:8.15.1
+    environment:
+      cluster.name: es-cluster
+      cluster.initial_master_nodes: es-1
+      node.name: es-1
+      bootstrap.memory_lock: true
+      xpack.security.enabled: false
+      ES_JAVA_OPTS: -Xms1g -Xmx1g
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es8-data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "--fail",
+          "http://${ES_SERVICE_NAME:-es}:9200/_cluster/health"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+volumes:
+  es8-data:
